@@ -86,6 +86,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
       selector: { id: store.id },
       update: {
         default_region_id: region.id,
+        name: 'Deckzter Store',
         supported_currencies: [
           {
             currency_code: currency_code,
