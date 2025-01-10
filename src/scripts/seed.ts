@@ -54,21 +54,6 @@ export default async function seedDemoData({ container }: ExecArgs) {
     defaultSalesChannel = salesChannelResult;
   }
 
-  await updateStoresWorkflow(container).run({
-    input: {
-      selector: { id: store.id },
-      update: {
-        supported_currencies: [
-          {
-            currency_code: currency_code,
-            is_default: true,
-          },
-        ],
-        default_sales_channel_id: defaultSalesChannel[0].id,
-      },
-    },
-  });
-
   logger.info("Seeding region data...");
   const { result: regionResult } = await createRegionsWorkflow(container).run({
     input: {
@@ -84,6 +69,25 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
   const region = regionResult[0];
   logger.info("Finished seeding regions.");
+
+  await updateStoresWorkflow(container).run({
+    input: {
+      selector: { id: store.id },
+      update: {
+        default_region_id: region.id,
+        supported_currencies: [
+          {
+            currency_code: currency_code,
+            is_tax_inclusive: true,
+            is_default: true,
+          },
+        ],
+        default_sales_channel_id: defaultSalesChannel[0].id,
+      },
+    },
+  });
+
+  
 
   logger.info("Seeding tax regions...");
   await createTaxRegionsWorkflow(container).run({
