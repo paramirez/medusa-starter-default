@@ -276,14 +276,22 @@ export default async function seedDemoData({ container }: ExecArgs) {
             rules: {
               tag_id: COMMON.id
             }
-          },
+          }
+        ]
+      },
+      {
+        prices: [
           {
             amount: 10000,
             currency_code,
             rules: {
               tag_id: UNCOMMON.id
             }
-          },
+          }
+        ]
+      },
+      {
+        prices: [
           {
             amount: 12000,
             currency_code,
@@ -291,6 +299,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
               tag_id: RARE.id
             }
           },
+        ]
+      },
+      {
+        prices: [
           {
             amount: 20000,
             currency_code,
@@ -299,7 +311,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
             }
           },
         ]
-      }
+      },
     ]
   })
   logger.info("End default price set of tags");
