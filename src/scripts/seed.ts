@@ -12,6 +12,7 @@ import {
   createTaxRegionsWorkflow,
   linkSalesChannelsToApiKeyWorkflow,
   linkSalesChannelsToStockLocationWorkflow,
+  updateSalesChannelsWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
 import { ExecArgs } from "@medusajs/framework/types";
@@ -53,6 +54,16 @@ export default async function seedDemoData({ container }: ExecArgs) {
     });
     defaultSalesChannel = salesChannelResult;
   }
+
+  await updateSalesChannelsWorkflow(container).run({
+    input: {
+      selector: { id: defaultSalesChannel[0].id},
+      update: {
+        description: 'Canal de ventas por defecto',
+        name: 'Canal de ventas - Por Defecto'
+      }
+    }
+  })
 
   logger.info("Seeding region data...");
   const { result: regionResult } = await createRegionsWorkflow(container).run({
